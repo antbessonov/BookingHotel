@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/hotel"
+    app:startDestination="@id/navigation_hotel">
+
+    <fragment
+        android:id="@+id/navigation_hotel"
+        android:name="org.bessonov.bookinghotel.fragment.hotel.HotelFragment"
+        android:label="HotelFragment"
+        tools:layout="@layout/fragment_hotel">
+        <action
+            android:id="@+id/action_navigation_hotel_to_navigation_number_hotel"
+            app:destination="@id/navigation_number_hotel"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_number_hotel"
+        android:name="org.bessonov.bookinghotel.fragment.number.NumberHotelFragment"
+        android:label="NumberHotelFragment"
+        tools:layout="@layout/fragment_number_hotel">
+        <argument
+            android:name="name_hotel"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_navigation_number_hotel_to_navigation_booking_number_hotel"
+            app:destination="@id/navigation_booking_number_hotel"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_booking_number_hotel"
+        android:name="org.bessonov.bookinghotel.fragment.booking.BookingInfoFragment"
+        android:label="BookingNumberHotelFragment"
+        tools:layout="@layout/fragment_booking_number_hotel">
+        <action
+            android:id="@+id/action_navigation_booking_number_hotel_to_navigation_success_paid"
+            app:destination="@id/navigation_success_paid"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_success_paid"
+        android:name="org.bessonov.bookinghotel.fragment.paid.SuccessPaidFragment"
+        android:label="SuccessPaidFragment"
+        tools:layout="@layout/fragment_success_paid">
+        <action
+            android:id="@+id/action_navigation_success_paid_to_navigation_hotel"
+            app:destination="@id/navigation_hotel"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/navigation_hotel"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+</navigation>
