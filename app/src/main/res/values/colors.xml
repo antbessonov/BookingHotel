@@ -7,4 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="md_theme_light_background">#F6F6F9</color>
+    <color name="md_theme_light_textfield_error">#26EB5757</color>
+    <color name="md_theme_light_textfield">#F6F6F9</color>
+    <color name="md_theme_light_total_price">#0D72FF</color>
+
+    <color name="md_theme_light_blue">#0D72FF</color>
 </resources>
