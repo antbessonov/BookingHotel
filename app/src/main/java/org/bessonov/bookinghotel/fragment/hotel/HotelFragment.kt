@@ -15,6 +15,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.bessonov.bookinghotel.R
 import org.bessonov.bookinghotel.databinding.FragmentHotelBinding
+import org.bessonov.bookinghotel.domain.util.NetworkProblem
+import org.bessonov.bookinghotel.domain.util.SomethingWentWrong
 import org.bessonov.bookinghotel.util.adapter.image.ImageListAdapter
 import org.bessonov.bookinghotel.util.adapter.peculiarity.PeculiarityListAdapter
 import org.bessonov.bookinghotel.fragment.number.NumberHotelFragment.Companion.NAME_HOTEL
@@ -76,6 +78,7 @@ class HotelFragment : Fragment(R.layout.fragment_hotel) {
 
     private fun reduce(state: HotelState.Content) {
         hideLoadingProgress()
+        hideError()
         showContentLayout()
         setMainInfo(state = state)
         setAdditionalInfo(state = state)
@@ -138,5 +141,39 @@ class HotelFragment : Fragment(R.layout.fragment_hotel) {
 
     private fun reduce(state: HotelState.Error) {
         hideLoadingProgress()
+        showErrorContentLayout()
+        setErrorContent(state = state)
+        binding.updateBtn.setOnClickListener {
+            viewModel.getHotel()
+        }
+    }
+
+    private fun showErrorContentLayout() {
+        binding.errorTitleTv.fadeIn()
+        binding.errorDescriptionTv.fadeIn()
+        binding.updateBtn.fadeIn()
+    }
+
+    private fun setErrorContent(state: HotelState.Error) {
+        when (state.message) {
+            NetworkProblem -> {
+                binding.errorTitleTv.text = getString(R.string.network_problem)
+                binding.errorDescriptionTv.text = getString(
+                    R.string.error_network_problem_description
+                )
+            }
+            SomethingWentWrong -> {
+                binding.errorTitleTv.text = getString(R.string.something_went_wrong)
+                binding.errorDescriptionTv.text = getString(
+                    R.string.error_something_went_wrong_description
+                )
+            }
+        }
+    }
+
+    private fun hideError() {
+        binding.errorTitleTv.visibility = View.GONE
+        binding.errorDescriptionTv.visibility = View.GONE
+        binding.updateBtn.visibility = View.GONE
     }
 }

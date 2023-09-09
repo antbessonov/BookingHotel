@@ -67,4 +67,12 @@
         <item>десятый</item>
     </string-array>
 
+    <string name="update">Обновить</string>
+    <string name="network_problem">Ошибка сети</string>
+    <string name="error_network_problem_description">Пожалуйста, проверьте подключение\nи
+        повторите попытку.</string>
+    <string name="something_went_wrong">Ошибка</string>
+    <string name="error_something_went_wrong_description">Возникла проблема.\nПовторите попытку
+        позже.\nЕсли проблема не исчезнет,\nсвяжитесь с техподдержкой.</string>
+
 </resources>

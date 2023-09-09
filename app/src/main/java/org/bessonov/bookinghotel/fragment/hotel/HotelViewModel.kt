@@ -27,8 +27,9 @@ class HotelViewModel @Inject constructor(
         getHotel()
     }
 
-    private fun getHotel() {
+    fun getHotel() {
         viewModelScope.launch {
+            _uiState.update { HotelState.Loading }
             val loadingResult = getHotelUseCase()
             handleLoadingResult(loadingResult = loadingResult)
         }
