@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Theme.BookingHotel.CardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <org.bessonov.bookinghotel.view.BookingPriceItemView
+            android:id="@+id/tour_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="Тур" />
+
+        <org.bessonov.bookinghotel.view.BookingPriceItemView
+            android:id="@+id/fuel_charge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:title="Топливный сбор" />
+
+        <org.bessonov.bookinghotel.view.BookingPriceItemView
+            android:id="@+id/service_charge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:title="Сервисный сбор" />
+
+        <org.bessonov.bookinghotel.view.BookingPriceItemView
+            android:id="@+id/total_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:title="К оплате" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
