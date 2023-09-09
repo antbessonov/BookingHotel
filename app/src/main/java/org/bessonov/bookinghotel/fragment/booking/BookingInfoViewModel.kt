@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 import org.bessonov.bookinghotel.domain.model.BookingInfo
 import org.bessonov.bookinghotel.domain.usecase.GetBookingInfoUseCase
 import org.bessonov.bookinghotel.domain.util.LoadingResult
+import org.bessonov.bookinghotel.fragment.booking.adapter.BookingInfoListItem
 import org.bessonov.bookinghotel.model.TouristUi
 import org.bessonov.bookinghotel.model.converter.BookingInfoUiConverter
 import org.bessonov.bookinghotel.util.ColorField
@@ -29,6 +30,39 @@ class BookingInfoViewModel @Inject constructor(
 
     init {
         getBookingInfo()
+    }
+
+    fun getBookingInfoList(): List<BookingInfoListItem> {
+        val state = _uiState.value as BookingInfoState.Content
+        val bookingInfoList = mutableListOf(
+            BookingInfoListItem.MainInfoHotelItem(
+                rating = state.bookingInfo.rating,
+                mainInfoHotel = state.bookingInfo.mainInfoHotel
+            ),
+            BookingInfoListItem.InfoItem(
+                bookingInfo = state.bookingInfo
+            ),
+            BookingInfoListItem.BuyerItem(
+                phone = state.phone,
+                phoneColorIntField = state.phoneColorIntField,
+                email = state.email,
+                emailColorIntField = state.emailColorIntField
+            )
+        )
+        for (i in 0..state.touristList.lastIndex) {
+            bookingInfoList.add(
+                BookingInfoListItem.TouristItem(
+                    tourist = state.touristList[i]
+                )
+            )
+        }
+        bookingInfoList.add(BookingInfoListItem.AddTouristItem)
+        bookingInfoList.add(
+            BookingInfoListItem.BookingPriceItem(
+                bookingPrice = state.bookingInfo.price
+            )
+        )
+        return bookingInfoList
     }
 
     fun updatePhone(value: CharSequence?) {
@@ -114,12 +148,7 @@ class BookingInfoViewModel @Inject constructor(
         val updatedTourist = touristList[position].copy(
             isShowDetails = !touristList[position].isShowDetails
         )
-        val updatedTouristList = touristList.toMutableList().apply {
-            this[position] = updatedTourist
-        }
-        _uiState.update { state ->
-            (state as BookingInfoState.Content).copy(touristList = updatedTouristList)
-        }
+        updateTourist(updatedTourist = updatedTourist, position = position)
     }
 
     fun updateTouristList() {
@@ -140,18 +169,14 @@ class BookingInfoViewModel @Inject constructor(
         position: Int
     ) {
         val firstName = value ?: EMPTY_VALUE
-        val tourist = (uiState.value as BookingInfoState.Content).touristList[position]
-            .copy(firstName = firstName.toString())
-        val touristList = (uiState.value as BookingInfoState.Content).touristList.toMutableList()
-            .apply { this[position] = tourist }
-        _uiState.update { state ->
-            (state as BookingInfoState.Content).copy(touristList = touristList)
-        }
+        val touristList = (uiState.value as BookingInfoState.Content).touristList
+        val updatedTourist = touristList[position].copy(firstName = firstName.toString())
+        updateTourist(updatedTourist = updatedTourist, position = position)
     }
 
     fun updateFirstNameFirstTouristColorField() {
-        val firstName =
-            (uiState.value as BookingInfoState.Content).touristList[FIRST_INDEX].firstName
+        val touristList = (uiState.value as BookingInfoState.Content).touristList
+        val firstName = touristList[FIRST_INDEX].firstName
         if (firstName.isNotEmpty()) {
             updateFirstNameFirstTouristColorField(colorField = ColorField.DEFAULT)
         } else {
@@ -160,13 +185,10 @@ class BookingInfoViewModel @Inject constructor(
     }
 
     fun updateFirstNameFirstTouristColorField(colorField: ColorField) {
-        val tourist = (uiState.value as BookingInfoState.Content).touristList[FIRST_INDEX]
+        val touristList = (uiState.value as BookingInfoState.Content).touristList
+        val updatedTourist = touristList[FIRST_INDEX]
             .copy(firstNameColorIntField = colorField.colorInt)
-        val touristList = (uiState.value as BookingInfoState.Content).touristList.toMutableList()
-            .apply { this[FIRST_INDEX] = tourist }
-        _uiState.update { state ->
-            (state as BookingInfoState.Content).copy(touristList = touristList)
-        }
+        updateTourist(updatedTourist = updatedTourist, position = FIRST_INDEX)
     }
 
     fun updateLastNameTouristList(
@@ -174,17 +196,14 @@ class BookingInfoViewModel @Inject constructor(
         position: Int
     ) {
         val lastName = value ?: EMPTY_VALUE
-        val tourist = (uiState.value as BookingInfoState.Content).touristList[position]
-            .copy(lastName = lastName.toString())
-        val touristList = (uiState.value as BookingInfoState.Content).touristList.toMutableList()
-            .apply { this[position] = tourist }
-        _uiState.update { state ->
-            (state as BookingInfoState.Content).copy(touristList = touristList)
-        }
+        val touristList = (uiState.value as BookingInfoState.Content).touristList
+        val updatedTourist = touristList[position].copy(lastName = lastName.toString())
+        updateTourist(updatedTourist = updatedTourist, position = position)
     }
 
     fun updateLastNameFirstTouristColorField() {
-        val lastName = (uiState.value as BookingInfoState.Content).touristList[FIRST_INDEX].lastName
+        val touristList = (uiState.value as BookingInfoState.Content).touristList
+        val lastName = touristList[FIRST_INDEX].lastName
         if (lastName.isNotEmpty()) {
             updateLastNameFirstTouristColorField(colorField = ColorField.DEFAULT)
         } else {
@@ -193,13 +212,10 @@ class BookingInfoViewModel @Inject constructor(
     }
 
     fun updateLastNameFirstTouristColorField(colorField: ColorField) {
-        val tourist = (uiState.value as BookingInfoState.Content).touristList[FIRST_INDEX]
+        val touristList = (uiState.value as BookingInfoState.Content).touristList
+        val updatedTourist = touristList[FIRST_INDEX]
             .copy(lastNameColorIntField = colorField.colorInt)
-        val touristList = (uiState.value as BookingInfoState.Content).touristList.toMutableList()
-            .apply { this[FIRST_INDEX] = tourist }
-        _uiState.update { state ->
-            (state as BookingInfoState.Content).copy(touristList = touristList)
-        }
+        updateTourist(updatedTourist = updatedTourist, position = FIRST_INDEX)
     }
 
     fun updateBirthdateTouristList(
@@ -207,18 +223,14 @@ class BookingInfoViewModel @Inject constructor(
         position: Int
     ) {
         val birthdate = value ?: EMPTY_VALUE
-        val tourist = (uiState.value as BookingInfoState.Content).touristList[position]
-            .copy(birthdate = birthdate.toString())
-        val touristList = (uiState.value as BookingInfoState.Content).touristList.toMutableList()
-            .apply { this[position] = tourist }
-        _uiState.update { state ->
-            (state as BookingInfoState.Content).copy(touristList = touristList)
-        }
+        val touristList = (uiState.value as BookingInfoState.Content).touristList
+        val updatedTourist = touristList[position].copy(birthdate = birthdate.toString())
+        updateTourist(updatedTourist = updatedTourist, position = position)
     }
 
     fun updateBirthdateFirstTouristColorField() {
-        val birthdate =
-            (uiState.value as BookingInfoState.Content).touristList[FIRST_INDEX].birthdate
+        val touristList = (uiState.value as BookingInfoState.Content).touristList
+        val birthdate = touristList[FIRST_INDEX].birthdate
         if (birthdate.isNotEmpty()) {
             updateBirthdateFirstTouristColorField(colorField = ColorField.DEFAULT)
         } else {
@@ -227,13 +239,10 @@ class BookingInfoViewModel @Inject constructor(
     }
 
     fun updateBirthdateFirstTouristColorField(colorField: ColorField) {
-        val tourist = (uiState.value as BookingInfoState.Content).touristList[FIRST_INDEX]
+        val touristList = (uiState.value as BookingInfoState.Content).touristList
+        val updatedTourist = touristList[FIRST_INDEX]
             .copy(birthdateColorIntField = colorField.colorInt)
-        val touristList = (uiState.value as BookingInfoState.Content).touristList.toMutableList()
-            .apply { this[FIRST_INDEX] = tourist }
-        _uiState.update { state ->
-            (state as BookingInfoState.Content).copy(touristList = touristList)
-        }
+        updateTourist(updatedTourist = updatedTourist, position = FIRST_INDEX)
     }
 
     fun updateCitizenshipTouristList(
@@ -241,18 +250,14 @@ class BookingInfoViewModel @Inject constructor(
         position: Int
     ) {
         val citizenship = value ?: EMPTY_VALUE
-        val tourist = (uiState.value as BookingInfoState.Content).touristList[position]
-            .copy(citizenship = citizenship.toString())
-        val touristList = (uiState.value as BookingInfoState.Content).touristList.toMutableList()
-            .apply { this[position] = tourist }
-        _uiState.update { state ->
-            (state as BookingInfoState.Content).copy(touristList = touristList)
-        }
+        val touristList = (uiState.value as BookingInfoState.Content).touristList
+        val updatedTourist = touristList[position].copy(citizenship = citizenship.toString())
+        updateTourist(updatedTourist = updatedTourist, position = position)
     }
 
     fun updateCitizenshipFirstTouristColorField() {
-        val citizenship =
-            (uiState.value as BookingInfoState.Content).touristList[FIRST_INDEX].citizenship
+        val touristList = (uiState.value as BookingInfoState.Content).touristList
+        val citizenship = touristList[FIRST_INDEX].citizenship
         if (citizenship.isNotEmpty()) {
             updateCitizenshipFirstTouristColorField(colorField = ColorField.DEFAULT)
         } else {
@@ -261,13 +266,10 @@ class BookingInfoViewModel @Inject constructor(
     }
 
     fun updateCitizenshipFirstTouristColorField(colorField: ColorField) {
-        val tourist = (uiState.value as BookingInfoState.Content).touristList[FIRST_INDEX]
+        val touristList = (uiState.value as BookingInfoState.Content).touristList
+        val updatedTourist = touristList[FIRST_INDEX]
             .copy(citizenshipColorIntField = colorField.colorInt)
-        val touristList = (uiState.value as BookingInfoState.Content).touristList.toMutableList()
-            .apply { this[FIRST_INDEX] = tourist }
-        _uiState.update { state ->
-            (state as BookingInfoState.Content).copy(touristList = touristList)
-        }
+        updateTourist(updatedTourist = updatedTourist, position = FIRST_INDEX)
     }
 
     fun updateNumberInterPassportTouristList(
@@ -275,19 +277,15 @@ class BookingInfoViewModel @Inject constructor(
         position: Int
     ) {
         val numberInterPassport = value ?: EMPTY_VALUE
-        val tourist = (uiState.value as BookingInfoState.Content).touristList[position]
+        val touristList = (uiState.value as BookingInfoState.Content).touristList
+        val updatedTourist = touristList[position]
             .copy(numberInterPassport = numberInterPassport.toString())
-        val touristList = (uiState.value as BookingInfoState.Content).touristList.toMutableList()
-            .apply { this[position] = tourist }
-        _uiState.update { state ->
-            (state as BookingInfoState.Content).copy(touristList = touristList)
-        }
+        updateTourist(updatedTourist = updatedTourist, position = position)
     }
 
     fun updateNumberInterPassportTouristColorField() {
-        val numberInterPassport =
-            (uiState.value as BookingInfoState.Content).touristList[FIRST_INDEX]
-                .numberInterPassport
+        val touristList = (uiState.value as BookingInfoState.Content).touristList
+        val numberInterPassport = touristList[FIRST_INDEX].numberInterPassport
         if (numberInterPassport.isNotEmpty()) {
             updateNumberInterPassportTouristColorField(colorField = ColorField.DEFAULT)
         } else {
@@ -296,13 +294,10 @@ class BookingInfoViewModel @Inject constructor(
     }
 
     fun updateNumberInterPassportTouristColorField(colorField: ColorField) {
-        val tourist = (uiState.value as BookingInfoState.Content).touristList[FIRST_INDEX]
+        val touristList = (uiState.value as BookingInfoState.Content).touristList
+        val updatedTourist = touristList[FIRST_INDEX]
             .copy(numberInterPassportColorIntField = colorField.colorInt)
-        val touristList = (uiState.value as BookingInfoState.Content).touristList.toMutableList()
-            .apply { this[FIRST_INDEX] = tourist }
-        _uiState.update { state ->
-            (state as BookingInfoState.Content).copy(touristList = touristList)
-        }
+        updateTourist(updatedTourist = updatedTourist, position = FIRST_INDEX)
     }
 
     fun updateValidityPeriodInterPassportTouristList(
@@ -310,19 +305,15 @@ class BookingInfoViewModel @Inject constructor(
         position: Int
     ) {
         val validityPeriodInterPassport = value ?: EMPTY_VALUE
-        val tourist = (uiState.value as BookingInfoState.Content).touristList[position]
+        val touristList = (uiState.value as BookingInfoState.Content).touristList
+        val updatedTourist = touristList[position]
             .copy(validityPeriodInterPassport = validityPeriodInterPassport.toString())
-        val touristList = (uiState.value as BookingInfoState.Content).touristList.toMutableList()
-            .apply { this[position] = tourist }
-        _uiState.update { state ->
-            (state as BookingInfoState.Content).copy(touristList = touristList)
-        }
+        updateTourist(updatedTourist = updatedTourist, position = position)
     }
 
     fun updateValidityPeriodInterPassportFirstTouristColorField() {
-        val validityPeriodInterPassport =
-            (uiState.value as BookingInfoState.Content).touristList[FIRST_INDEX]
-                .validityPeriodInterPassport
+        val touristList = (uiState.value as BookingInfoState.Content).touristList
+        val validityPeriodInterPassport = touristList[FIRST_INDEX].validityPeriodInterPassport
         if (validityPeriodInterPassport.isNotEmpty()) {
             updateValidityPeriodInterPassportFirstTouristColorField(colorField = ColorField.DEFAULT)
         } else {
@@ -331,12 +322,19 @@ class BookingInfoViewModel @Inject constructor(
     }
 
     fun updateValidityPeriodInterPassportFirstTouristColorField(colorField: ColorField) {
-        val tourist = (uiState.value as BookingInfoState.Content).touristList[FIRST_INDEX]
+        val touristList = (uiState.value as BookingInfoState.Content).touristList
+        val updatedTourist = touristList[FIRST_INDEX]
             .copy(validityPeriodInterPassportColorIntField = colorField.colorInt)
-        val touristList = (uiState.value as BookingInfoState.Content).touristList.toMutableList()
-            .apply { this[FIRST_INDEX] = tourist }
+        updateTourist(updatedTourist = updatedTourist, position = FIRST_INDEX)
+    }
+
+    private fun updateTourist(updatedTourist: TouristUi, position: Int) {
         _uiState.update { state ->
-            (state as BookingInfoState.Content).copy(touristList = touristList)
+            val touristList = (state as BookingInfoState.Content).touristList
+            val updatedTouristList = touristList.toMutableList().apply {
+                this[position] = updatedTourist
+            }
+            state.copy(touristList = updatedTouristList)
         }
     }
 
@@ -403,7 +401,9 @@ class BookingInfoViewModel @Inject constructor(
 
     companion object {
 
-        private const val FIRST_INDEX = 0
+        const val FIRST_INDEX = 0
+        const val BUYER_POSITION = 2
+        const val FIRST_TOURIST_POSITION = 3
         private const val EMPTY_VALUE = ""
     }
 }
