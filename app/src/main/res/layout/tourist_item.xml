@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Theme.BookingHotel.CardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/ordinal_number_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sf_pro_display_medium"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Первый турист" />
+
+        <ImageView
+            android:id="@+id/show_details_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            app:layout_constraintBottom_toBottomOf="@id/ordinal_number_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/arrow_up"
+            app:layout_constraintTop_toTopOf="@id/ordinal_number_tv"
+            tools:ignore="ContentDescription" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/first_name_til"
+            style="@style/Theme.BookingHotel.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="20dp"
+            android:hint="@string/first_name"
+            app:layout_constraintTop_toBottomOf="@id/ordinal_number_tv">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/first_name_edt"
+                style="@style/Theme.BookingHotel.TextInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/last_name_til"
+            style="@style/Theme.BookingHotel.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="8dp"
+            android:hint="@string/last_name"
+            app:layout_constraintTop_toBottomOf="@id/first_name_til">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/last_name_edt"
+                style="@style/Theme.BookingHotel.TextInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/birthdate_til"
+            style="@style/Theme.BookingHotel.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="8dp"
+            android:hint="@string/birthdate"
+            app:layout_constraintTop_toBottomOf="@id/last_name_til">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/birthdate_edt"
+                style="@style/Theme.BookingHotel.TextInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="date" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/citizenship_til"
+            style="@style/Theme.BookingHotel.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="8dp"
+            android:hint="@string/citizenship"
+            app:layout_constraintTop_toBottomOf="@id/birthdate_til">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/citizenship_edt"
+                style="@style/Theme.BookingHotel.TextInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/number_international_passport_til"
+            style="@style/Theme.BookingHotel.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="8dp"
+            android:hint="@string/number_international_passport"
+            app:layout_constraintTop_toBottomOf="@id/citizenship_til">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/number_international_passport_edt"
+                style="@style/Theme.BookingHotel.TextInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/validity_period_international_passport_til"
+            style="@style/Theme.BookingHotel.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="8dp"
+            android:hint="@string/validity_period_international_passport"
+            app:layout_constraintTop_toBottomOf="@id/number_international_passport_til">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/validity_period_international_passport_edt"
+                style="@style/Theme.BookingHotel.TextInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
