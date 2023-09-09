@@ -2,9 +2,9 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/Theme.BookingHotel.CardView"
-    android:layout_marginTop="8dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,49 +16,49 @@
             android:id="@+id/departure"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:title="Вылет из" />
+            app:title="@string/departure" />
 
         <org.bessonov.bookinghotel.view.BookingInfoItemView
             android:id="@+id/arrival_with_country"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:title="Страна, город" />
+            app:title="@string/arrival_with_country" />
 
         <org.bessonov.bookinghotel.view.BookingInfoItemView
             android:id="@+id/dates"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:title="Даты" />
+            app:title="@string/dates" />
 
         <org.bessonov.bookinghotel.view.BookingInfoItemView
             android:id="@+id/number_nights"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:title="Кол-во ночей" />
+            app:title="@string/number_nights" />
 
         <org.bessonov.bookinghotel.view.BookingInfoItemView
             android:id="@+id/name_hotel_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:title="Отель" />
+            app:title="@string/name_hotel_tv" />
 
         <org.bessonov.bookinghotel.view.BookingInfoItemView
             android:id="@+id/number_hotel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:title="Номер" />
+            app:title="@string/number_hotel" />
 
         <org.bessonov.bookinghotel.view.BookingInfoItemView
             android:id="@+id/nutrition"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:title="Питание" />
+            app:title="@string/nutrition" />
 
     </LinearLayout>
 
